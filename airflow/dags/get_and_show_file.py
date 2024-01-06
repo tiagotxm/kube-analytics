@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from airflow import DAG
-from airflow.providers.cncf.kubernetes.operators.kubernetes_pod import KubernetesPodOperator
+from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
 
 default_args = {
     'owner': 'airflow',
@@ -29,5 +29,5 @@ with DAG(
         name="hello-world-pod",
         in_cluster=True,
         get_logs=True,
-        is_delete_operator_pod=False
+        on_finish_action="keep_pod"
     )
