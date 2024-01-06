@@ -17,6 +17,7 @@ with DAG(
     default_args=default_args,
     description='A simple Hello World DAG',
     schedule_interval=timedelta(days=1),
+    catchup=False
 ) as dag:
 
     hello_world_task = KubernetesPodOperator(
@@ -27,5 +28,6 @@ with DAG(
         arguments=["Hello, World!"],
         name="hello-world-pod",
         in_cluster=True,
-        get_logs=True
+        get_logs=True,
+        is_delete_operator_pod=False
     )
