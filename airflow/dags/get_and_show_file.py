@@ -22,7 +22,7 @@ with DAG(
 
     hello_world_task = KubernetesPodOperator(
         task_id='hello_world_task',
-        namespace='default',
+        namespace='airflow',
         image="alpine:latest",
         cmds=["echo"],
         arguments=["Hello, World!"],
