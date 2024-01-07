@@ -13,20 +13,20 @@ default_args = {
 }
 
 with DAG(
-    'hello_world_dag',
+    'show_customer_data',
     default_args=default_args,
-    description='A simple Hello World DAG',
+    description='Download and show customers data',
     schedule_interval=timedelta(days=1),
     catchup=False
 ) as dag:
 
     hello_world_task = KubernetesPodOperator(
-        task_id='hello_world_task',
+        task_id='download_customers_data',
         namespace='airflow',
-        image="alpine:latest",
-        cmds=["echo"],
-        arguments=["Hello, World!"],
-        name="hello-world-pod",
+        image="tiagotxm/customer-gz-loader",
+        # cmds=["echo"],
+        # arguments=["Hello, World!"],
+        name="customers-data",
         in_cluster=True,
         get_logs=True,
         on_finish_action="keep_pod"
