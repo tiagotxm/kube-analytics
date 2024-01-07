@@ -13,7 +13,7 @@ default_args = {
 }
 
 with DAG(
-    'hello_world_dag',
+    'show_customer_data',
     default_args=default_args,
     description='Download and show customers data',
     schedule_interval=timedelta(days=1),
