@@ -25,7 +25,10 @@ with DAG(
         namespace='airflow',
         image="alpine:latest",
         cmds=["sh", "-c"],
-        arguments=["./scripts/download_file.sh"],
+        arguments=[
+                   'file_url="https://ifood-data-architect-test-source.s3-sa-east-1.amazonaws.com/consumer.csv.gz"',
+                   'curl -sSL "$file_url" | gzip -d > /tmp/customers.csv'
+        ],
         name="download-pod",
         in_cluster=True,
         get_logs=True,
@@ -37,7 +40,7 @@ with DAG(
         namespace='airflow',
         image="alpine:latest",
         cmds=["sh", "-c"],
-        arguments=["./scripts/show_file.sh"],
+        arguments=["cat /tmp/customers.csv"],
         name="show-pod",
         in_cluster=True,
         get_logs=True,
