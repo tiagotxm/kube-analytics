@@ -34,10 +34,10 @@ with DAG(
         get_logs=True,
         on_finish_action="keep_pod",
         volumes=[
-            V1Volume(name="airflow-pvc", persistent_volume_claim={"claimName": "airflow-pvc"}),
+            V1Volume(name="airflow-files", persistent_volume_claim={"claimName": "airflow-files"}),
         ],
         volume_mounts=[
-            V1VolumeMount(name="airflow-pvc", mount_path="/mnt/pvc"),
+            V1VolumeMount(name="airflow-files", mount_path="/mnt/files"),
         ],
     )
 
@@ -46,7 +46,7 @@ with DAG(
         namespace='airflow',
         image="alpine:latest",
         cmds=["sh", "-c"],
-        arguments=["cat /mnt/pvc/customers.csv"],
+        arguments=["cat /mnt/files/customers.csv"],
         name="show-pod",
         in_cluster=True,
         get_logs=True,

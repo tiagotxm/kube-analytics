@@ -1,10 +1,14 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: airflow-pvc
+  name: airflow-files
+  namespace: airflow
+  labels:
+    app: airflow-files
 spec:
+  storageClassName: manual
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
-      storage: 1Gi
+      storage: 2Gi
