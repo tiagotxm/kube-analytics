@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.providers.cncf.kubernetes.operators.pod import KubernetesPodOperator
+from kubernetes.client.models import V1Volume, V1VolumeMount
 
 default_args = {
     'owner': 'airflow',
@@ -33,10 +34,10 @@ with DAG(
         get_logs=True,
         on_finish_action="keep_pod",
         volumes=[
-            {"name": "airflow-pvc", "persistentVolumeClaim": {"claimName": "airflow-pvc"}},
+            V1Volume(name="airflow-pvc", persistent_volume_claim={"claimName": "airflow-pvc"}),
         ],
         volume_mounts=[
-            {"name": "airflow-pvc", "mountPath": "/mnt/pvc"},
+            V1VolumeMount(name="airflow-pvc", mount_path="/mnt/pvc"),
         ],
     )
 
