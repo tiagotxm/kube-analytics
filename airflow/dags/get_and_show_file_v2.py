@@ -27,7 +27,7 @@ with DAG(
         cmds=["sh", "-c"],
         arguments=[
             'file_url="https://ifood-data-architect-test-source.s3-sa-east-1.amazonaws.com/consumer.csv.gz"',
-            'curl -sSL "$file_url" | gzip -d > /mnt/pvc/customers.csv'
+            'curl -sSL "$file_url" | gzip -d > /mnt/files/customers.csv'
         ],
         name="download-pod",
         in_cluster=True,
