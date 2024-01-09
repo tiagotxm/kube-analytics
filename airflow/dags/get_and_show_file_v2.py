@@ -13,26 +13,31 @@ default_args = {
 }
 
 with DAG(
-    'show_customer_data_v2',
-    default_args=default_args,
-    description='Download and show customers data',
-    schedule_interval=timedelta(days=1),
-    catchup=False
+        'show_customer_data_v2',
+        default_args=default_args,
+        description='Download and show customers data',
+        schedule_interval=timedelta(days=1),
+        catchup=False
 ) as dag:
-
     download_file = KubernetesPodOperator(
         task_id='download_customers_data',
         namespace='airflow',
         image="alpine:latest",
         cmds=["sh", "-c"],
         arguments=[
-                   'file_url="https://ifood-data-architect-test-source.s3-sa-east-1.amazonaws.com/consumer.csv.gz"',
-                   'curl -sSL "$file_url" | gzip -d > /tmp/customers.csv'
+            'file_url="https://ifood-data-architect-test-source.s3-sa-east-1.amazonaws.com/consumer.csv.gz"',
+            'curl -sSL "$file_url" | gzip -d > /mnt/pvc/customers.csv'
         ],
         name="download-pod",
         in_cluster=True,
         get_logs=True,
-        on_finish_action="keep_pod"
+        on_finish_action="keep_pod",
+        volumes=[
+            {"name": "airflow-pvc", "persistentVolumeClaim": {"claimName": "airflow-pvc"}},
+        ],
+        volume_mounts=[
+            {"name": "airflow-pvc", "mountPath": "/mnt/pvc"},
+        ],
     )
 
     show_file = KubernetesPodOperator(
@@ -40,7 +45,7 @@ with DAG(
         namespace='airflow',
         image="alpine:latest",
         cmds=["sh", "-c"],
-        arguments=["cat /tmp/customers.csv"],
+        arguments=["cat /mnt/pvc/customers.csv"],
         name="show-pod",
         in_cluster=True,
         get_logs=True,
