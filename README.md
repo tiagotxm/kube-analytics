@@ -14,6 +14,7 @@ The follow pre-requirements needs to be installed in order to work seamlessly
 - [Kubectl](https://kubernetes.io/docs/tasks/tools/)
 - [Docker](https://docs.docker.com/engine/install/)
 - [Kind](https://kind.sigs.k8s.io/docs/user/quick-start/)
+- [Docker Hub Account](https://hub.docker.com/)
 
 
 Everything installed successfully, just type the commands:
@@ -30,7 +31,7 @@ Terraform will create some resources as:
 - Install Airflow Helm Charts
 - Create a PV and PVC to store tasks logs
 
-The Airflow is configured to use GitHub as main source of DAG files
+Airflow is configured to use GitHub as main source of DAG files. The follow [DAG](https://github.com/tiagotxm/kube-analytics/blob/main/airflow/dags/get_and_show_file.py) is responsible por pulling a Python image hosted on Docker Hub and run a process script to show up customer data.
 
 ## Future improvements
 - Build a custom CI/CD to deploy images to registry
