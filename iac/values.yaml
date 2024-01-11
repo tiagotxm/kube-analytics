@@ -2464,5 +2464,5 @@ logs:
     # If using a custom storageClass, pass name here
     storageClassName:
     ## the name of an existing PVC to use
-    existingClaim: airflow-logs
+    existingClaim: pvc-airflow-logs
 

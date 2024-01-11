@@ -1,1 +1,5 @@
 .idea/
+iac/.terraform
+iac/.terraform.lock.hcl
+iac/kind-tf-config
+iac/terraform.tfstate
